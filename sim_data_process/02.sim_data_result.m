@@ -13,7 +13,7 @@ xcorr2 = ones(channel, channel, windows, trial, subject, shuffle);
 cos1 = ones(channel, windows, trial, subject);
 cos2 = ones(channel, channel, windows, trial, subject, shuffle);
 
-mat_path = 's13_head1_result\';
+mat_path = 'I:\共用雲端硬碟\CNElab_枋劭勳\10.交接資料\Shane-InfoFlowNet\result\s13_3ch_head8_eye_WOI_20240125155445\inference_20240125214628\record\';
 mat_files = dir([mat_path, '*.mat']);
 
 for i=1:length(mat_files)
@@ -79,7 +79,7 @@ ch_location = {'sine', 'sawtooth', 'random'};
 corr2_corr1 = ones(channel, channel, windows, trial, subject, shuffle);
 xcorr2_xcorr1 = ones(channel, channel, windows, trial, subject, shuffle);
 cos2_cos1 = ones(channel, channel, windows, trial, subject, shuffle);
-DTW2_DTW1 = ones(channel, channel, windows, trial, subject, shuffle);
+% DTW2_DTW1 = ones(channel, channel, windows, trial, subject, shuffle);
 
 for sub=1:subject
     for t=1:trial
@@ -99,9 +99,9 @@ for sub=1:subject
                             cos2(c, c_shuffle, w, t, sub, s) = cos1(c, w, t);
                         end
     
-                        if DTW2(c, c_shuffle, w, t, sub, s) < DTW1(c, w, t)
-                            DTW2(c, c_shuffle, w, t, sub, s) = DTW1(c, w, t);
-                        end
+%                         if DTW2(c, c_shuffle, w, t, sub, s) < DTW1(c, w, t)
+%                             DTW2(c, c_shuffle, w, t, sub, s) = DTW1(c, w, t);
+%                         end
 
                         corr2_corr1(c, c_shuffle, w, t, sub, s) = -(corr2(c, c_shuffle, w, t, sub, s)-...
                         corr1(c, w, t));
@@ -112,8 +112,8 @@ for sub=1:subject
                         cos2_cos1(c, c_shuffle, w, t, sub, s) = -(cos2(c, c_shuffle, w, t, sub, s)-...
                         cos1(c, w, t));
     
-                        DTW2_DTW1(c, c_shuffle, w, t, sub, s) = DTW2(c, c_shuffle, w, t, sub, s)-...
-                        DTW1(c, w, t);
+%                         DTW2_DTW1(c, c_shuffle, w, t, sub, s) = DTW2(c, c_shuffle, w, t, sub, s)-...
+%                         DTW1(c, w, t);
                     end
                 end
             end
@@ -124,7 +124,7 @@ end
 [corr2_corr1_mean, corr2_corr1_sem] = InfoFlowNet_Causality_Rescale(corr2_corr1, 10, trial);
 [xcorr2_xcorr1_mean, xcorr2_xcorr1_sem] = InfoFlowNet_Causality_Rescale(xcorr2_xcorr1, 10, trial);
 [cos2_cos1_mean, cos2_cos1_sem] = InfoFlowNet_Causality_Rescale(cos2_cos1, 10, trial);
-[DTW2_DTW1_mean, DTW2_DTW1_sem] = InfoFlowNet_Causality_Rescale(DTW2_DTW1, 10, trial);
+% [DTW2_DTW1_mean, DTW2_DTW1_sem] = InfoFlowNet_Causality_Rescale(DTW2_DTW1, 10, trial);
 
 x = 1:1:windows;
 t = tiledlayout(channel, channel);
